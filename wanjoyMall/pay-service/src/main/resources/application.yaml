@@ -1,0 +1,80 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: pay-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  #    active: local
+  cloud:
+    nacos:
+      discovery:
+        namespace: ${NACOS_NAMESPACE:wanjoyMall}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+      server-addr: ${NACOS_ADDR:192.168.100.129:8848}
+      username: ${NACOS_USERNAME:}
+      password: ${NACOS_PASSWORD:}
+      config:
+        namespace: ${NACOS_NAMESPACE:wanjoyMall}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+    sentinel:
+      transport:
+        dashboard: ${SENTINEL_DASHBOARD:127.0.0.1:8090} # sentinel 控制台地址，未启动控制台不影响熔断降级
+      http-method-specify: true # 资源名带请求方式前缀，便于按接口配置规则
+    openfeign:
+      okhttp:
+        enabled: true # 开启OKHttp功能
+  datasource:
+    url: jdbc:mysql://${wm.db.host}:${WM_DB_PORT:3306}/${wm.db.database}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${WM_DB_USER:root}
+    password: ${WM_DB_PASSWORD:}
+  rabbitmq:
+    host: ${RABBITMQ_HOST:127.0.0.1}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:}
+    virtual-host: ${RABBITMQ_VHOST:/wanjoymall}
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: ${REDIS_DATABASE:1}
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: 1000ms
+wm:
+  pay:
+    message-retry-interval: 5000
+    reconcile-interval: 30000
+  db:
+    host: ${WM_DB_HOST:127.0.0.1}
+    database: ${WM_DB_NAME:hm-pay}
+  swagger:
+    title: wanjoyMall支付服务接口文档
+    package: com.wsy.wanjoymall.pay.controller
+mybatis-plus:
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+  global-config:
+    db-config:
+      update-strategy: not_null
+      id-type: auto
+logging:
+  level:
+    com.wsy.wanjoymall: debug
+  pattern:
+    dateformat: HH:mm:ss:SSS
+  file:
+    path: "logs/${spring.application.name}"
+feign:
+  sentinel:
+    enabled: true # 开启 Feign 的 Sentinel 整合，让 @FeignClient 的 fallback 生效

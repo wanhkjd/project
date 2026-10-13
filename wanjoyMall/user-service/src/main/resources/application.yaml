@@ -1,0 +1,74 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: user-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  cloud:
+    nacos:
+      discovery:
+        namespace: ${NACOS_NAMESPACE:wanjoyMall}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+      server-addr: ${NACOS_ADDR:192.168.100.129:8848}
+      username: ${NACOS_USERNAME:}
+      password: ${NACOS_PASSWORD:}
+      config:
+        namespace: ${NACOS_NAMESPACE:wanjoyMall}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+    openfeign:
+      okhttp:
+        enabled: true # 开启OKHttp功能
+
+  datasource:
+    url: jdbc:mysql://${wm.db.host}:${WM_DB_PORT:3306}/${wm.db.database}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${WM_DB_USER:root}
+    password: ${WM_DB_PASSWORD:}
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: ${REDIS_DATABASE:1}
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: 1000ms
+mybatis-plus:
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+  global-config:
+    db-config:
+      update-strategy: not_null
+      id-type: auto
+logging:
+  level:
+    com.wsy.wanjoymall: debug
+  pattern:
+    dateformat: HH:mm:ss:SSS
+  file:
+    path: "logs/${spring.application.name}"
+
+wm:
+  jwt:
+    location: ${WM_JWT_LOCATION:classpath:wanjoymall.jks}
+    alias: ${WM_JWT_ALIAS:wanjoymall}
+    password: ${WM_JWT_PASSWORD:wanjoymall-dev-key}
+    tokenTTL: 30m
+  auth:
+    excludePaths:
+      - /search/**
+      - /users/login
+      - /items/**
+      - /hi
+  db:
+    host: ${WM_DB_HOST:127.0.0.1}
+    database: ${WM_DB_NAME:hm-user}
+  swagger:
+    title: wanjoyMall用户管理服务接口文档
+    package: com.wsy.wanjoymall.user.controller
+
+# 开发密钥库为 PKCS12；生产环境请通过 WM_JWT_* 指定独立密钥，不要复用内置开发密钥。

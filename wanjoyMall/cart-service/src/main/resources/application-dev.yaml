@@ -1,0 +1,14 @@
+wm:
+  db:
+    host: ${WM_DB_HOST:mysql}
+    pw: ${WM_DB_PASSWORD:}
+spring:
+  config:
+    import:
+      # Nacos 共享配置：启动前先将 deploy/nacos 模板导入 wanjoyMall 命名空间的 DEFAULT_GROUP 分组；配置缺失时应启动失败。
+      - nacos:wm-shared-jdbc.yaml?group=${NACOS_GROUP:DEFAULT_GROUP}&refreshEnabled=true
+      - nacos:wm-shared-log.yaml?group=${NACOS_GROUP:DEFAULT_GROUP}&refreshEnabled=true
+      - nacos:wm-shared-openapi.yaml?group=${NACOS_GROUP:DEFAULT_GROUP}&refreshEnabled=true
+      - nacos:wm-shared-redis.yaml?group=${NACOS_GROUP:DEFAULT_GROUP}&refreshEnabled=true
+      - nacos:wm-shared-seata.yaml?group=${NACOS_GROUP:DEFAULT_GROUP}&refreshEnabled=true
+      - nacos:cart-service.yaml?group=${NACOS_GROUP:DEFAULT_GROUP}&refreshEnabled=true

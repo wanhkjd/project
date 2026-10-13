@@ -1,0 +1,40 @@
+# Build artifacts
+target/
+build/
+*.class
+*.jar
+!**/mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+.ua/
+node_modules/
+dist/
+
+.env.*
+.h2/
+.claude/
+docs/
+
+mvn-local-offline-settings.xml
+
+novel/doc/sql/novel.sql/novel_data.sql
+
+*.sql.zip

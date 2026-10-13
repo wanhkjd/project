@@ -1,0 +1,4 @@
+# 共享 OpenAPI 3 配置，原有接口描述和模型说明已保留。
+springdoc:
+  packages-to-scan: ${wm.swagger.package}
+# Knife4j 仅使用静态 UI（/doc.html），文档生成由 Springdoc 2.8 提供。

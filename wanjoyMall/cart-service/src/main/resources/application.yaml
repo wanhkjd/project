@@ -1,0 +1,42 @@
+server:
+  port: 8082
+  tomcat:
+    threads:
+      max: 25
+    accept-count: 25
+    max-connections: 100
+
+feign:
+  sentinel:
+    enabled: true
+
+wm:
+  swagger:
+    title: wanjoyMall购物车服务接口文档
+    package: com.wsy.wanjoymall.cart.controller
+  db:
+    database: ${WM_DB_NAME:hm-cart}
+    host: ${WM_DB_HOST:127.0.0.1}
+spring:
+  cloud:
+    sentinel:
+      transport:
+        dashboard: ${SENTINEL_DASHBOARD:127.0.0.1:8090} #sentinel 的控制台地址
+      http-method-specify: true # 开启请求方式前缀
+    nacos:
+      server-addr: ${NACOS_ADDR:192.168.100.129:8848}
+      username: ${NACOS_USERNAME:}
+      password: ${NACOS_PASSWORD:}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:wanjoyMall}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+      config:
+        namespace: ${NACOS_NAMESPACE:wanjoyMall}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+    openfeign:
+      okhttp:
+        enabled: true # 开启OKHttp功能
+  application:
+    name: cart-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}

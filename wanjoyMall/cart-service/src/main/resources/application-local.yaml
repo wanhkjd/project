@@ -1,0 +1,18 @@
+wm:
+  db:
+    host: ${WM_DB_HOST:127.0.0.1} # 修改为你自己的虚拟机IP地址
+    pw: ${WM_DB_PASSWORD:} # 修改为docker中的MySQL密码
+spring:
+  config:
+    import:
+      # 本地共享配置：JDBC、日志、接口文档、Redis、Seata（按服务需要加载）。
+      - classpath:wm-shared-jdbc.yaml
+      - classpath:wm-shared-log.yaml
+      - classpath:wm-shared-openapi.yaml
+      - classpath:wm-shared-redis.yaml
+      - classpath:wm-shared-seata.yaml
+  cloud:
+    nacos:
+      config:
+        import-check:
+          enabled: false

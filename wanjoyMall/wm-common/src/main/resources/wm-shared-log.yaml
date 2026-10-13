@@ -1,0 +1,8 @@
+# 共享日志配置
+logging:
+  level:
+    com.wsy.wanjoymall: ${WM_LOG_LEVEL:info}
+  pattern:
+    dateformat: HH:mm:ss:SSS
+  file:
+    path: logs/${spring.application.name}

@@ -1,0 +1,6 @@
+com.wsy.wanjoymall.common.config.MyBatisConfig
+com.wsy.wanjoymall.common.config.MvcConfig
+com.wsy.wanjoymall.common.config.MqConfig
+com.wsy.wanjoymall.common.config.JsonConfig
+com.wsy.wanjoymall.common.advice.CommonExceptionAdvice
+com.wsy.wanjoymall.common.config.OpenApiConfig

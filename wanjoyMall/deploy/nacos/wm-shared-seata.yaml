@@ -1,0 +1,22 @@
+# 共享 Seata 配置；使用独立事务分组，不覆盖已有环境。
+# 默认启用分布式事务，需要 Apache Seata 2.5.x 服务端及 undo_log 表。
+seata:
+  enabled: ${SEATA_ENABLED:true}
+  application-id: ${spring.application.name}
+  tx-service-group: wm-trade-group
+  enable-auto-data-source-proxy: true
+  data-source-proxy-mode: AT
+  registry: # TC 服务注册中心配置；微服务从 Nacos 获取实际 TC 地址。
+    type: nacos
+    nacos:
+      server-addr: 192.168.100.129:8848 # Nacos 地址，不是 Seata 事务通信端口。
+      namespace: "" # 必须与 TC 服务端一致；沿用现有远程配置的 public，不跟随业务命名空间。
+      group: DEFAULT_GROUP
+      application: seata-server
+      username: nacos
+      password: nacos # 用户提供的开发环境配置；生产环境请覆盖凭据。
+  config:
+    type: file # 事务配置由当前应用提供，不再额外拉取 Seata 专用远程配置。
+  service:
+    vgroup-mapping: # 事务组与 TC 集群的映射关系，需与服务端集群一致。
+      wm-trade-group: default

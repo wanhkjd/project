@@ -1,0 +1,65 @@
+[
+  {
+    "id": "wm-item",
+    "uri": "lb://item-service",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "_genkey_0": "/items/**",
+          "_genkey_1": "/search/**",
+          "_genkey_2": "/seckill/**"
+        }
+      }
+    ]
+  },
+  {
+    "id": "wm-cart",
+    "uri": "lb://cart-service",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "_genkey_0": "/carts/**"
+        }
+      }
+    ]
+  },
+  {
+    "id": "wm-user",
+    "uri": "lb://user-service",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "_genkey_0": "/users/**",
+          "_genkey_1": "/addresses/**"
+        }
+      }
+    ]
+  },
+  {
+    "id": "wm-trade",
+    "uri": "lb://trade-service",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "_genkey_0": "/orders/**"
+        }
+      }
+    ]
+  },
+  {
+    "id": "wm-pay",
+    "uri": "lb://pay-service",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "_genkey_0": "/pay-orders/**"
+        }
+      }
+    ]
+  }
+]

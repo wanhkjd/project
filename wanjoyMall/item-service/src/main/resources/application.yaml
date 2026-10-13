@@ -1,0 +1,40 @@
+server:
+  port: 8081
+
+wm:
+  swagger:
+    title: wanjoyMall商品服务接口文档
+    package: com.wsy.wanjoymall.item.controller
+  db:
+    database: ${WM_DB_NAME:hm-item}
+    host: ${WM_DB_HOST:127.0.0.1}
+
+  elasticsearch:
+    enabled: ${ELASTICSEARCH_ENABLED:true}
+    host: ${ELASTICSEARCH_HOST:127.0.0.1}
+    port: ${ELASTICSEARCH_PORT:9200}
+    scheme: ${ELASTICSEARCH_SCHEME:http}
+    username: ${ELASTICSEARCH_USERNAME:}
+    password: ${ELASTICSEARCH_PASSWORD:}
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:127.0.0.1}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:}
+    virtual-host: ${RABBITMQ_VHOST:/wanjoymall}
+  application:
+    name: item-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:192.168.100.129:8848}
+      username: ${NACOS_USERNAME:}
+      password: ${NACOS_PASSWORD:}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:wanjoyMall}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+      config:
+        namespace: ${NACOS_NAMESPACE:wanjoyMall}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}

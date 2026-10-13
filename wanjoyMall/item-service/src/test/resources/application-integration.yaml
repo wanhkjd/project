@@ -1,0 +1,34 @@
+# 集成测试仅用于隔离环境，需 -Dwm.integration.allow-writes=true 显式允许写入。
+spring:
+  config:
+    import:
+      - classpath:wm-shared-jdbc.yaml
+      - classpath:wm-shared-redis.yaml
+      - classpath:wm-shared-log.yaml
+      - classpath:wm-shared-openapi.yaml
+  cloud:
+    nacos:
+      discovery:
+        enabled: false
+      config:
+        enabled: false
+        import-check:
+          enabled: false
+  data:
+    redis:
+      host: ${WM_TEST_REDIS_HOST:127.0.0.1}
+      port: ${WM_TEST_REDIS_PORT:6379}
+      password: ${WM_TEST_REDIS_PASSWORD:}
+      database: 15
+  rabbitmq:
+    listener:
+      simple:
+        auto-startup: false
+      direct:
+        auto-startup: false
+seata:
+  enabled: false
+wm:
+  db:
+    host: ${WM_TEST_DB_HOST:127.0.0.1}
+    database: wm-item-integration-test

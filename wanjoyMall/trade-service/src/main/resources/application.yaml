@@ -1,0 +1,49 @@
+server:
+  port: 8085
+wm:
+  swagger:
+    title: wanjoyMall交易服务接口文档
+    package: com.wsy.wanjoymall.trade.controller
+  db:
+    database: ${WM_DB_NAME:hm-trade}
+    host: ${WM_DB_HOST:127.0.0.1}
+  order:
+    pay-timeout: 120000 # 未支付订单自动关闭的等待时间（毫秒），演示用 2 分钟，生产建议 15~30 分钟
+    seckill-pay-timeout: 300000 # 秒杀订单未支付自动关闭的等待时间（毫秒），5 分钟，比普通订单短以尽快释放库存
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:127.0.0.1}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:}
+    virtual-host: ${RABBITMQ_VHOST:/wanjoymall}
+    listener:
+      simple:
+        retry:
+          enabled: true # 消费失败在本地重试，不立即重新入队
+          initial-interval: 1000ms # 首次重试间隔
+          multiplier: 2 # 每次重试间隔翻倍：1s、2s
+          max-attempts: 3 # 最多尝试 3 次，耗尽后交给 MessageRecoverer 投递到错误队列
+          stateless: true
+  cloud:
+    sentinel:
+      transport:
+        dashboard: ${SENTINEL_DASHBOARD:127.0.0.1:8090} # sentinel 控制台地址，未启动控制台不影响熔断降级
+      http-method-specify: true # 资源名带请求方式前缀，便于按接口配置规则
+    nacos:
+      server-addr: ${NACOS_ADDR:192.168.100.129:8848}
+      username: ${NACOS_USERNAME:}
+      password: ${NACOS_PASSWORD:}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:wanjoyMall}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+      config:
+        namespace: ${NACOS_NAMESPACE:wanjoyMall}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+  application:
+    name: trade-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+feign:
+  sentinel:
+    enabled: true # 开启 Feign 的 Sentinel 整合，ItemClient 的 FallbackFactory 才会生效
